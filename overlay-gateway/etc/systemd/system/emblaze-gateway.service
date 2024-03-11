@@ -7,7 +7,7 @@ ConditionFirstBoot=no
 
 [Service]
 Environment="VIRTUAL_ENV=/venv" "PATH=/venv/bin"
-ExecStart=/venv/bin/emblaze_gateway -c /etc/emblaze/gateway_config.ini -d /var/lib/emblaze/gateway_dat.json --log-file /var/log/emblaze/gateway.log
+ExecStart=/venv/bin/emblaze-gateway -c /etc/emblaze/gateway_config.ini -d /var/lib/emblaze/gateway_database --log-file /var/log/emblaze/gateway.log
 Type=notify
 KillMode=process
 NotifyAccess=main
