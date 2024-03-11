@@ -1,0 +1,12 @@
+[submodule "overlay-library/usr/local/share/ell"]
+	path = overlay-library/usr/local/share/ell
+	url = https://kernel.googlesource.com/pub/scm/libs/ell/ell
+[submodule "overlay-library/usr/local/share/bluez"]
+	path = overlay-library/usr/local/share/bluez
+	url = https://github.com/emblaze-gateway/bluez.git
+[submodule "overlay-library/usr/local/share/Python"]
+	path = overlay-library/usr/local/share/Python
+	url = https://github.com/python/cpython.git
+[submodule "overlay-library/usr/local/share/json-c"]
+	path = overlay-library/usr/local/share/json-c
+	url = https://github.com/json-c/json-c.git

@@ -1,0 +1,18 @@
+[Unit]
+Description=OpenVPN Service
+After=network-online.target NetworkManager
+Wants=network-online.target NetworkManager
+ConditionFirstBoot=no
+
+[Service]
+ExecStart=openvpn --config "/etc/emblaze/openvpn.conf"
+Type=exec
+NotifyAccess=main
+LimitNPROC=1
+ProtectHome=true
+ProtectSystem=full
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
