@@ -51,6 +51,7 @@ run_command()
 
         # emblaze-gateway config setting
         if [ $(( $commands & 4 )) -gt 0 ]; then
+                mkdir -p "/etc/emblaze"
                 cp -f "$mounted/config.ini" "/etc/emblaze/gateway_config.ini"
                 echo "EMBLAZE-USB: Set emblaze-gateway configuration"
                 systemctl restart emblaze-gateway.service
@@ -58,6 +59,7 @@ run_command()
 
         # ovpn setting
         if [ $(( $commands & 8 )) -gt 0 ]; then
+                mkdir -p "/etc/emblaze"
                 cp -f "$mounted/ovpn.conf" "/etc/emblaze/openvpn.conf"
                 echo "EMBLAZE-USB: Set ovpn configuration"
                 systemctl enable ovpn.service
