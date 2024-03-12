@@ -13,53 +13,14 @@ finish() {
 	exit -1
 }
 
+# overlay-library folder
 SHARE_DIR=/usr/local/share/
 
-# Python
-cd "overlay-library${SHARE_DIR}Python"
-if [ ! -e Makefile ]; then
-	./configure --enable-optimizations
-	make -j4
-fi
-cd -
-
-# json-c
-cd "overlay-library${SHARE_DIR}json-c"
-if [ ! -e Makefile ]; then
-	./configure --prefix=/usr --disable-static
-	make -j4
-fi
-cd -
-
-# bluez
-cd "overlay-library${SHARE_DIR}bluez"
-if [ ! -e Makefile ]; then
-	./bootstrap
-	./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var
-	make -j4
-fi
-cd -
-
-# overlay-library folder
-for module in Python json-c bluez; do
-	if [ -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}" ]; then
-        sudo rm -rf "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
+for module in Python json-c ell bluez; do
+	if [ ! -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${PYTHON_DIR}" ]; then
+		sudo cp -rf "overlay-library${SHARE_DIR}${module}" "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
 	fi
-    sudo cp -rf "overlay-library${SHARE_DIR}${module}" "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
 done
-
-
-# Python, json-c, ell, bluez library
-# for module in Python json-c ell bluez; do
-#	 if [ -e "modules/${module}" ]; then
-#		 sudo rm -rf $TARGET_ROOTFS_DIR/usr/local/share/${module}
-#		 sudo mkdir $TARGET_ROOTFS_DIR/usr/local/share/${module}
-#		 sudo cp -rf modules/${module}/* $TARGET_ROOTFS_DIR/usr/local/share/${module}
-#	 else
-#		 echo -e "\033[36m No has ${module} module. \033[0m"
-#		 exit -1
-#	 fi
-# done
 
 sudo mount -o bind /dev $TARGET_ROOTFS_DIR/dev
 trap finish ERR
@@ -81,6 +42,8 @@ autoconf bison flex libssl-dev libtool automake || break
 
 # Install Python
 cd /usr/local/share/Python
+./configure --enable-optimizations
+make -j4
 make install
 cd /
 rm -r /usr/local/share/Python
@@ -88,14 +51,20 @@ rm -r /usr/local/share/Python
 
 # Install json-c
 cd /usr/local/share/json-c
+./configure --prefix=/usr --disable-static
+make -j4
 make install
 cd /
 rm -rf /usr/local/share/json-c
 
 # Install BlueZ
 cd /usr/local/share/bluez
+./bootstrap
+./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var
+make -j4
 make install
 cd /
+rm -rf /usr/local/share/ell
 rm -rf /usr/local/share/bluez
 
 #######################################################
