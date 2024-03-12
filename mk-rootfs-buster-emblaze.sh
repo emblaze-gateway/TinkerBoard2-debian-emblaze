@@ -21,7 +21,7 @@ if [ -e "modules/bluemesh" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/bluemesh
     sudo mkdir $TARGET_ROOTFS_DIR/bluemesh
     sudo cp -rf modules/bluemesh/* $TARGET_ROOTFS_DIR/bluemesh
-else;
+else
 	echo -e "\033[36m No has bluemesh module. \033[0m"
     exit -1
 fi
@@ -30,7 +30,7 @@ if [ -e "modules/gateway" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/gateway
     sudo mkdir $TARGET_ROOTFS_DIR/gateway
     sudo cp -rf modules/gateway/* $TARGET_ROOTFS_DIR/gateway
-else;
+else
 	echo -e "\033[36m No has gateway module. \033[0m"
     exit -1
 fi
@@ -39,7 +39,7 @@ if [ -e "modules/led-control" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/usr/local/share/led-control
     sudo mkdir $TARGET_ROOTFS_DIR/usr/local/share/led-control
     sudo cp -rf modules/led-control/* $TARGET_ROOTFS_DIR/usr/local/share/led-control
-else;
+else
 	echo -e "\033[36m No has led-control module. \033[0m"
     exit -1
 fi

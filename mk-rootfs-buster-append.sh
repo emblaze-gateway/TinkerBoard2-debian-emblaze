@@ -13,19 +13,41 @@ finish() {
 	exit -1
 }
 
-# overlay-library folder
 SHARE_DIR=/usr/local/share/
-# mkdir -p overlay-library${SHARE_DIR}
-# if [ ! -e "overlay_library${SHARE_DIR}Python" ]; then
-#     git clone https://github.com/python/cpython.git -b v3.11.7 --single-branch --depth 1 Python
-# fi
 
+# Python
+cd "overlay-library${SHARE_DIR}Python"
+if [ ! -e Makefile ]; then
+	./configure --enable-optimizations
+	make -j4
+fi
+cd -
 
-for module in Python json-c ell bluez; do
-	if [ ! -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${PYTHON_DIR}" ]; then
-		sudo cp -rf "overlay-library${SHARE_DIR}${module}" "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
+# json-c
+cd "overlay-library${SHARE_DIR}json-c"
+if [ ! -e Makefile ]; then
+	./configure --prefix=/usr --disable-static
+	make -j4
+fi
+cd -
+
+# bluez
+cd "overlay-library${SHARE_DIR}bluez"
+if [ ! -e Makefile ]; then
+	./bootstrap
+	./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var
+	make -j4
+fi
+cd -
+
+# overlay-library folder
+for module in Python json-c bluez; do
+	if [ -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}" ]; then
+        sudo rm -rf "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
 	fi
+    sudo cp -rf "overlay-library${SHARE_DIR}${module}" "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
 done
+
 
 # Python, json-c, ell, bluez library
 # for module in Python json-c ell bluez; do
@@ -59,43 +81,22 @@ autoconf bison flex libssl-dev libtool automake || break
 
 # Install Python
 cd /usr/local/share/Python
-if [ ! -e Makefile ]; then
-	./configure --enable-optimizations
-	make -j4
-fi
-cp -r /usr/local/share/Python /Python
-cd /Python
 make install
 cd /
-rm -r /Python
+rm -r /usr/local/share/Python
 
 
 # Install json-c
 cd /usr/local/share/json-c
-if [ ! -e Makefile ]; then
-	./configure --prefix=/usr --disable-static
-	make -j4
-fi
-cp -r /usr/local/share/json-c /json-c
-cd /json-c
 make install
 cd /
-rm -rf /json-c
+rm -rf /usr/local/share/json-c
 
 # Install BlueZ
 cd /usr/local/share/bluez
-if [ ! -e Makefile ]; then
-	./bootstrap
-	./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var
-	make -j4
-fi
-cp -r /usr/local/share/ell /ell
-cp -r /usr/local/share/bluez /bluez
-cd /bluez
 make install
 cd /
-rm -rf /ell
-rm -rf /bluez
+rm -rf /usr/local/share/bluez
 
 #######################################################
 echo $VERSION_NUMBER-$VERSION >> /etc/version
