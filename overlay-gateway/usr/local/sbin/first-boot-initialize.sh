@@ -16,11 +16,6 @@ systemctl disable ovpn.service
 
 nmcli radio wifi off
 
-crontab -l > mycron
-echo "0 4 * * * logrotate /etc/logrotate.conf" >> mycron
-crontab mycron
-rm mycron
-
 sleep 40s
 
 echo "emblaze:emblaze" | chpasswd
