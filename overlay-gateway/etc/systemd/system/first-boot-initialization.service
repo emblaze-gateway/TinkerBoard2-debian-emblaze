@@ -1,8 +1,8 @@
 [Unit]
 Description=First boot initialization
 ConditionFirstBoot=yes
-After=network-online.target NetworkManager
-Wants=network-online.target NetworkManager
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/local/sbin/first-boot-initialize.sh
