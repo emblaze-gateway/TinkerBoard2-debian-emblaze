@@ -2,6 +2,7 @@
 
 sleep 40s
 
+systemctl disable --now vncserver
 systemctl disable --now hostapd
 systemctl disable --now dhcpcd
 
