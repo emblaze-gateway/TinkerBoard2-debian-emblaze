@@ -6,6 +6,8 @@ Wants=network-online.target
 
 [Service]
 ExecStart=/usr/local/sbin/first-boot-initialize.sh
+RemainAfterExit=yes
+ExecStop=touch /tmp/complete-first-boot
 Type=oneshot
 ProtectHome=true
 
