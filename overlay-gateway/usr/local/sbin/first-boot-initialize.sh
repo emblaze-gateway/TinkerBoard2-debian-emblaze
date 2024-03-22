@@ -9,7 +9,6 @@ systemctl disable --now dhcpcd
 systemctl disable bluetooth.service
 systemctl enable bluetooth-mesh.service
 
-systemctl enable emblaze-usb.service
 systemctl enable rabbitmq.service
 systemctl enable emblaze-gateway.service
 

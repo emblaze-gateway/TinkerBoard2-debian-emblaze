@@ -2,26 +2,31 @@
 
 FILE_NAME="wifi.txt"
 
+log()
+{
+        logger -t "emblaze-usb" "$@"
+}
+
 wifi_enable()
 {
-		echo "EMBLAZE-USB: wifi on"
+        log "info: wifi on"
         nmcli radio wifi on
-		sleep 5s
+        sleep 5s
 }
 
 wifi_disable()
 {
-		echo "EMBLAZE-USB: wifi off"
+        log "info: wifi off"
         nmcli radio wifi off
         sleep 5s
 }
 
 event_handler()
 {
-        echo "EMBLAZE-USB: setting wifi"
+        log "info: setting wifi"
 
         if [ ! -e "$1/$FILE_NAME" ]; then
-                echo "EMBLAZE-USB: Not found $FILE_NAME"
+                log "error: Not found $FILE_NAME"
                 return 1
         fi
 
@@ -33,13 +38,13 @@ event_handler()
                 elif [ "$wifi_enabled" == "enabled" ]; then
                         wifi_enable
                 else
-                        echo "EMBLAZE-USB: Wrong written $1/$FILE_NAME"
+                        log "error: Wrong written $1/$FILE_NAME"
                         return 1
                 fi
         fi
 
-		if [ "$(nmcli r wifi)" != "enabled" ]; then
-            echo "EMBLAZE-USB: wifi NOT enabled"
+        if [ "$(nmcli r wifi)" != "enabled" ]; then
+            log "info: wifi NOT enabled"
             return 0
         fi
 
@@ -50,14 +55,14 @@ event_handler()
             is_wifi_exist=$(if echo "${detected_wifi_names}" | grep -q "${wifi_name}"; then echo "yes"; else echo "no"; fi)
             if [ "${is_wifi_exist}" = "yes" ]; then
                     if [ -z "${wifi_password}" ]; then
-                            echo "EMBLAZE-USB: $(nmcli dev wifi connect ${wifi_name})"
-                            # TODO: 에러 핸들링
+                            log "info: $(nmcli dev wifi connect ${wifi_name})"
+                            # TODO: Error handling
                     else
-                            echo "EMBLAZE-USB: $(nmcli dev wifi connect ${wifi_name} password ${wifi_password})"
-                            # TODO: 에러 핸들링
+                            log "info: $(nmcli dev wifi connect ${wifi_name} password ${wifi_password})"
+                            # TODO: Error Handling
                     fi
             else
-                    echo "EMBLAZE-USB: NOT detected signal by ${wifi_name}"
+                    log "warning: NOT detected signal by ${wifi_name}"
             fi
         fi
 }

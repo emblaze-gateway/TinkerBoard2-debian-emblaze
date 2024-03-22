@@ -2,22 +2,29 @@
 
 FILE_NAME="cmd.txt"
 
+log()
+{
+        logger -t "emblaze-usb" "$@"
+}
+
 cmds()
 {
         arg="$1"
         case $arg in
                 "echo")
-                        text=$@
-                        echo "EMBLAZE-USB: $text"
-                        echo "EMBLAZE-USB: $text" > /dev/kmsg
+                        text="$@"
+                        echo "EMBLAZE-USB: echo $text"
+                        log "echo: $text"
                         ;;
                 "reboot")
+                        log "reboot"
                         sleep 3
                         sync
                         reboot
                         return 0
                         ;;
                 "shutdown")
+                        log "shutdown"
                         sleep 3
                         sync
                         shutdown now
@@ -26,32 +33,35 @@ cmds()
                 "enable")
                         shift 1
                         arg="$1"
+                        log "info: enable $arg"
                         case $arg in
                                 "ovpn")
                                         systemctl enable ovpn.service
                                         systemctl restart ovpn.service
                                         ;;
                                 *)
-                                        echo "EMBLAZE-USB: Unknown enable service: $arg"
+                                        log "warning: Unknown enable service: $arg"
                                         ;;
                         esac
                         ;;
                 "disable")
                         shift 1
                         arg="$1"
+                        log "info: disable $arg"
                         case $arg in
                                 "ovpn")
                                         systemctl stop ovpn.service
                                         systemctl disable ovpn.service
                                         ;;
                                 *)
-                                        echo "EMBLAZE-USB: Unknown disable service: $arg"
+                                        log "warning: Unknown disable service: $arg"
                                         ;;
                         esac
                         ;;
                 "restart")
                         shift 1
                         arg="$1"
+                        log "info: restart $arg"
                         case $arg in
                                 "gateway")
                                         systemctl restart emblaze-gateway.service
@@ -68,16 +78,16 @@ cmds()
                                         sleep 1s
                                         systemctl stop ovpn.service
                                         sleep 1s
+                                        systemctl start ovpn.service
+                                        sleep 1s
                                         systemctl start bluetooth-mesh.service
                                         sleep 1s
                                         systemctl start rabbitmq.service
                                         sleep 1s
                                         systemctl start emblaze-gateway.service
-                                        sleep 1s
-                                        systemctl start ovpn.service
                                         ;;
                                 *)
-                                        echo "EMBLAZE-USB: Unknown restart service: $arg"
+                                        log "warning: Unknown restart service: $arg"
                                         ;;
                         esac
                         ;;
@@ -98,20 +108,21 @@ cmds()
                 "sleep")
                         shift 1
                         arg="$1"
+                        log "sleep: $arg"
                         sleep "$arg"
                         ;;
                 *)
-                        echo "EMBLAZE-USB: Unknown cmd: $arg"
+                        log "warning: Unknown cmd: $arg"
                         ;;
         esac
 }
 
 event_handler()
 {
-        echo "EMBLAZE-USB: command"
+        log "info: commands"
 
         if [ ! -e "$1/$FILE_NAME" ]; then
-                echo "EMBLAZE-USB: Not found $FILE_NAME"
+                log "warning: Not found $FILE_NAME"
                 return 1
         fi
 
