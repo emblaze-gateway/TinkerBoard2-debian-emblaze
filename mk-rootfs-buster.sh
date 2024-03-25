@@ -126,9 +126,6 @@ fi
 #---------modem manager---------
 apt-get install -y modemmanager libqmi-utils libmbim-utils ppp || break
 
-#------------------dhcpcd------------
-apt-get install -y dhcpcd5 || break
-
 #---------------tinker-power-management--------------
 cd /usr/local/share/tinker-power-management
 gcc tinker-power-management.c -o tinker-power-management -lncursesw
