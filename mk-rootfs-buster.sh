@@ -117,15 +117,6 @@ apt-get install -y git fakeroot devscripts cmake binfmt-support dh-make dh-exec 
 bc cpio parted dosfstools mtools libssl-dev dpkg-dev isc-dhcp-client-ddns || break
 apt-get install -f -y
 
-if [ "$VERSION" == "debug" ]; then
-#------------------glmark2------------
-echo -e "\033[36m Install glmark2.................... \033[0m"
-\${APT_INSTALL} /packages/glmark2/*.deb
-fi
-
-#---------modem manager---------
-apt-get install -y modemmanager libqmi-utils libmbim-utils ppp || break
-
 #---------------tinker-power-management--------------
 cd /usr/local/share/tinker-power-management
 gcc tinker-power-management.c -o tinker-power-management -lncursesw
@@ -170,12 +161,8 @@ for groupname in gpiouser i2cuser spidevuser uartuser pwmuser; do
     adduser linaro \$groupname
 done
 
-#-------------plymouth--------------
-plymouth-set-default-theme script
-
 #-------------Others--------------
 cp /etc/Powermanager/systemd-suspend.service  /lib/systemd/system/systemd-suspend.service
-update-alternatives --auto x-terminal-emulator
 
 # Switching iptables/ip6tables to the legacy version
 update-alternatives --set iptables /usr/sbin/iptables-legacy
