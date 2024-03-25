@@ -12,7 +12,7 @@ systemctl enable emblaze-gateway.service
 
 systemctl disable ovpn.service
 
-nmcli radio wifi off
+nmcli radio wifi on
 
 sleep 40s
 

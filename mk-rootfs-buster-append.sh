@@ -17,7 +17,7 @@ finish() {
 SHARE_DIR=/usr/local/share/
 
 for module in Python json-c ell bluez; do
-	if [ ! -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${PYTHON_DIR}" ]; then
+	if [ ! -e "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}" ]; then
 		sudo cp -rf "overlay-library${SHARE_DIR}${module}" "${TARGET_ROOTFS_DIR}${SHARE_DIR}${module}"
 	fi
 done
