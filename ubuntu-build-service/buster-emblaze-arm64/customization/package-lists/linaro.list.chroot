@@ -6,7 +6,7 @@
 #96boards-tools-common
 acpi-support-base
 adduser
-alsa-utils
+#alsa-utils
 anacron
 apt
 apt-utils
@@ -26,12 +26,12 @@ cpufrequtils
 crda
 cron
 curl
-dbus-x11
+#dbus-x11
 debconf
 debconf-i18n
 debian-keyring
 #default-jre
-dmz-cursor-theme
+#dmz-cursor-theme
 dnsmasq-base
 eject
 ethtool
@@ -174,11 +174,11 @@ wget
 whiptail
 wireless-tools
 wpasupplicant
-x11-utils
-x11-xserver-utils
-xdg-user-dirs-gtk
+# x11-utils
+# x11-xserver-utils
+#xdg-user-dirs-gtk
 #xfce4-power-manager-plugins
-xinit
+# xinit
 #xmms2-client-cli
 #xmms2-plugin-mad
 #xmms2-plugin-pulse
@@ -188,7 +188,7 @@ xinit
 #xserver-xorg-video-fbdev
 #xserver-xorg-video-modesetting
 #xscreensaver
-xterm
+#xterm
 zip
 #lxde-common
 #desktop-base

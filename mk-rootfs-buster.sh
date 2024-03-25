@@ -126,10 +126,6 @@ fi
 #---------modem manager---------
 apt-get install -y modemmanager libqmi-utils libmbim-utils ppp || break
 
-#------------------libdrm------------
-echo -e "\033[36m Install libdrm.................... \033[0m"
-\${APT_INSTALL} /packages/libdrm/*.deb
-
 #------------------dhcpcd------------
 apt-get install -y dhcpcd5 || break
 
