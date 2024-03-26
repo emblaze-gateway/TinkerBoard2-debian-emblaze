@@ -1,8 +1,14 @@
 #!/bin/bash
 
+log()
+{
+        logger -t "emblaze-usb" "$@"
+}
+
 # Skip 'emblaze-usb-autorun' when it is first boot
 # Please note that '/etc/systemd/system/first-boot-initialization.service'
-if [ -n "/tmp/complete-first-boot" ]; then
+if [ $(systemctl is-active first-boot-initialization.service) == "active"]; then
+        log "Not yet complete first boot."
         exit 0
 fi
 
@@ -20,11 +26,6 @@ RUN_COMMANDS="run.txt"
 
 mkdir -p $MOUNT_POINT
 export EMBLAZE_USB_DIRPATH="$(dirname $0)/emblaze-usb-autorun"
-
-log()
-{
-        logger -t "emblaze-usb" "$@"
-}
 
 get_mount_point()
 {
