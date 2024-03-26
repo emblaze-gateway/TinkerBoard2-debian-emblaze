@@ -95,7 +95,7 @@ DRY_RUN=1 sh ./get-docker.sh
 sh get-docker.sh
 
 # Setting USB Plug-in-play
-cd /usr/local/bin
+cd /usr/local/sbin
 chmod ug+x emblaze-usb-autorun.sh
 chmod -R ug+x emblaze-usb-autorun
 cd /
