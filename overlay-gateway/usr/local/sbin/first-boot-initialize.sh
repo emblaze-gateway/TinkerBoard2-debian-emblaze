@@ -3,6 +3,7 @@
 sleep 40s
 
 systemctl disable --now vncserver
+systemctl disable --now systemd-time-wait-sync.service
 
 systemctl disable bluetooth.service
 systemctl enable bluetooth-mesh.service

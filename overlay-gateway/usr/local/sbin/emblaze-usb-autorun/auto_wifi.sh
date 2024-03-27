@@ -65,6 +65,7 @@ event_handler()
                     log "warning: NOT detected signal by ${wifi_name}"
             fi
         fi
+        return 0
 }
 
 event_handler $1
