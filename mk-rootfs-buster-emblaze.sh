@@ -100,9 +100,10 @@ cd /usr/local/sbin
 chmod ug+x first-boot-initialize.sh
 cd /
 
-# force timesync
+# force severals after boot
 cd /usr/local/sbin
 chmod ug+x force-timesync.sh
+chmod ug+x force-emblaze-usb.sh
 cd /
 
 # LED Controller

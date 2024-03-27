@@ -19,8 +19,11 @@ systemctl enable rabbitmq.service
 systemctl disable --now ovpn.service
 
 dpkg --configure -a
+sleep 5s
 systemctl restart rockchip.service
+sleep 5s
 systemctl reset-failed
+sleep 5s
 
 echo "emblaze:emblaze" | chpasswd
 

@@ -5,19 +5,20 @@ log()
         logger -t "emblaze-usb" "$@"
 }
 
+DEVICE="/dev/emblaze-usb"
+MOUNT_POINT="/emblaze-usb-mount-point"
+
+HASHSUM_FILE="/tmp/emblaze-usb.hash"
+
 # Skip 'emblaze-usb-autorun' when it is first boot
 # Please note that '/etc/systemd/system/first-boot-initialization.service'
 if [ $(systemctl is-active first-boot-initialization.service) == "active"]; then
         log "Not yet complete first boot."
         exit 0
 fi
-
-DEVICE="/dev/emblaze-usb"
-MOUNT_POINT="/emblaze-usb-mount-point"
-
-HASHSUM_FILE="/tmp/emblaze-usb.hash"
-if [ ! -f "$HASHSUM_FILE" ]; then
-        touch $HASHSUM_FILE
+if [ ! -e "$HASHSUM_FILE" ]; then
+        log "Not yet complete boot."
+        exit 0
 fi
 HASHSUM=$(cat $HASHSUM_FILE)
 
