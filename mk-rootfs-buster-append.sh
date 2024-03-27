@@ -67,6 +67,12 @@ cd /
 rm -rf /usr/local/share/ell
 rm -rf /usr/local/share/bluez
 
+# Install docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+DRY_RUN=1 sh ./get-docker.sh
+sh get-docker.sh
+
+
 #######################################################
 echo $VERSION_NUMBER-$VERSION >> /etc/version
 echo "Finished"
