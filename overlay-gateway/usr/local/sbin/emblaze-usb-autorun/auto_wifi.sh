@@ -23,7 +23,7 @@ wifi_disable()
 
 event_handler()
 {
-        log "info: setting wifi"
+        log "info: setting wifi/eth"
 
         if [ ! -e "$1/$FILE_NAME" ]; then
                 log "error: Not found $FILE_NAME"
@@ -32,6 +32,10 @@ event_handler()
 
         wifi_config=$("$EMBLAZE_USB_DIRPATH/read_lines.sh" "$1/$FILE_NAME")
         wifi_enabled="$(echo $(echo $wifi_config | cut -d '\' -f1))d"
+        if [ "$wifi_enabled" == "eth" ]; then
+            log "info: Using ethernet"
+            return 0
+        fi
         if [ "$(nmcli r wifi)" != "$wifi_enabled" ]; then
                 if [ "$wifi_enabled" == "disabled" ]; then
                         wifi_disable
