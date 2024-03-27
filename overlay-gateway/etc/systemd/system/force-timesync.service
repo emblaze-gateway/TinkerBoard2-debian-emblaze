@@ -1,12 +1,11 @@
 [Unit]
-Description=First boot initialization
-ConditionFirstBoot=yes
+Description=Checking boot
+ConditionFirstBoot=no
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/local/sbin/first-boot-initialize.sh
-RemainAfterExit=yes
+ExecStart=/usr/local/sbin/force-timesync.sh
 Type=oneshot
 ProtectHome=true
 

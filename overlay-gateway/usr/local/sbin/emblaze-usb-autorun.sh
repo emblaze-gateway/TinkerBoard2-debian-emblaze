@@ -99,6 +99,7 @@ run_command()
                 mkdir -p "/etc/emblaze"
                 cp -f "$mounted/config.ini" "/etc/emblaze/gateway_config.ini"
                 log "info: Set emblaze-gateway configuration"
+                systemctl enable emblaze-gateway.service
                 systemctl restart emblaze-gateway.service
         fi
 

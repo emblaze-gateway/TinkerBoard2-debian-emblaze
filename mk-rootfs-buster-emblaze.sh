@@ -100,6 +100,11 @@ cd /usr/local/sbin
 chmod ug+x first-boot-initialize.sh
 cd /
 
+# force timesync
+cd /usr/local/sbin
+chmod ug+x force-timesync.sh
+cd /
+
 # LED Controller
 cd /usr/local/share/led-control
 cmake .
@@ -107,7 +112,6 @@ make
 make install
 cd /
 rm -rf /usr/local/share/led-control
-
 
 #######################################################
 echo $VERSION_NUMBER-$VERSION > /etc/version
