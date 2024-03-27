@@ -77,14 +77,14 @@ run_command()
         # Changing the order below commands NOT allowed while you do not want behavior to change.
         # # TODO: It skips for the moment because status keeps 'starting' when
         # # waiting systemd-time-wait-sync due to disconnected network.
-        while [ $(systemctl is-system-running) != "running"]; do
+        while [ $(systemctl is-system-running) != "running" ]; do
                 log "Waiting running"
                 sleep 2s
         done
 
         # wifi setting
         if [ $(( $commands & 1 )) -gt 0 ]; then
-                while [ $(systemctl is-active NetworkManager.service) != "active"]; do
+                while [ $(systemctl is-active NetworkManager.service) != "active" ]; do
                         log "Waiting NetworkManager"
                         sleep 2s
                 done
