@@ -5,21 +5,45 @@ log()
         logger -t "emblaze-usb" "$@"
 }
 
+# Skip 'emblaze-usb-autorun' when it is first boot
+# Please note that '/etc/systemd/system/first-boot-initialization.service'
+if [ $(systemctl is-active first-boot-initialization.service) == "active"]; then
+        log "Not yet complete first boot."
+        exit 1
+fi
+
+echo 0 | tee /sys/class/leds/pwr-led/brightness
+echo 0 | tee /sys/class/leds/act-led/brightness
+echo 1 | tee /sys/class/leds/act-led/brightness
+echo 1 | tee /sys/class/leds/rsv-led/brightness
+
+terminate() {
+        echo 1 | tee /sys/class/leds/pwr-led/brightness
+        echo 0 | tee /sys/class/leds/act-led/brightness
+        echo 0 | tee /sys/class/leds/rsv-led/brightness
+        exit $1
+}
+
+# Waiting for system running
+if [ $(systemctl is-system-running) != "running" ]; then
+        log "Waiting for system running."
+        sleep 10s
+fi
+if [ $(systemctl is-system-running) != "running" ]; then
+        log "Failed waiting."
+        terminate 1
+fi
+
 DEVICE="/dev/emblaze-usb"
 MOUNT_POINT="/emblaze-usb-mount-point"
 
 HASHSUM_FILE="/tmp/emblaze-usb.hash"
 
-# Skip 'emblaze-usb-autorun' when it is first boot
-# Please note that '/etc/systemd/system/first-boot-initialization.service'
-if [ $(systemctl is-active first-boot-initialization.service) == "active"]; then
-        log "Not yet complete first boot."
-        exit 0
-fi
 if [ ! -e "$HASHSUM_FILE" ]; then
-        log "Not yet complete boot."
-        exit 0
+        log "Waiting complete boot and make hashsum file."
+        terminate 1
 fi
+
 HASHSUM=$(cat $HASHSUM_FILE)
 
 RUN_COMMANDS="run.txt"
@@ -76,12 +100,6 @@ run_command()
         commands=$2
 
         # Changing the order below commands NOT allowed while you do not want behavior to change.
-        # # TODO: It skips for the moment because status keeps 'starting' when
-        # # waiting systemd-time-wait-sync due to disconnected network.
-        while [ $(systemctl is-system-running) != "running" ]; do
-                log "Waiting running"
-                sleep 2s
-        done
 
         # wifi setting
         if [ $(( $commands & 1 )) -gt 0 ]; then
@@ -180,10 +198,11 @@ event_handler()
 cleanup() {
         log "warning: Get abnormal signal."
         unmount_emblaze_usb
-        exit 0
+        terminate 1
 }
 
 trap "cleanup" SIGTERM
 trap "cleanup" SIGABRT
 
 event_handler
+terminate 0

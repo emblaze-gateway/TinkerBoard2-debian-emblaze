@@ -32,12 +32,8 @@ done
 
 /usr/local/sbin/force-timesync.sh
 
-# Waiting system running
-while [ $(systemctl is-system-running) != "running" ]; do
-        log "Waiting system running."
-        sleep 3s
-done
-
 sync
+
+sleep 5s
 
 reboot
