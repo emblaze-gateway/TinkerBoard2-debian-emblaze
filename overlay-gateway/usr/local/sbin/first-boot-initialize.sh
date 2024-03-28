@@ -18,18 +18,25 @@ systemctl enable rabbitmq.service
 
 systemctl disable --now ovpn.service
 
-dpkg --configure -a
-sleep 5s
-systemctl restart rockchip.service
-sleep 5s
-systemctl reset-failed
-sleep 5s
-
 echo "emblaze:emblaze" | chpasswd
 
-sleep 10s
+sleep 30s
+
+while [ $(systemctl is-failed rockchip.service) != "inactive" ]; do
+    if [ $(systemctl is-failed rockchip.service) == "failed" ]; then
+        dpkg --configure -a
+        systemctl restart rockchip.service
+    fi
+done
+
 
 /usr/local/sbin/force-timesync.sh
+
+# Waiting system running
+while [ $(systemctl is-system-running) != "running" ]; do
+        log "Waiting system running."
+        sleep 3s
+done
 
 sync
 
