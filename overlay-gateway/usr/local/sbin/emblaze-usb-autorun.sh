@@ -25,22 +25,18 @@ terminate() {
 }
 
 # Waiting for system running
-if [ $(systemctl is-system-running) != "running" ]; then
+while [ $(systemctl is-system-running) != "running" ]; do
         log "Waiting for system running."
-        sleep 10s
-fi
-if [ $(systemctl is-system-running) != "running" ]; then
-        log "Failed waiting."
-        terminate 1
-fi
+        sleep 5s
+done
 
 DEVICE="/dev/emblaze-usb"
 MOUNT_POINT="/emblaze-usb-mount-point"
 
-HASHSUM_FILE="/tmp/emblaze-usb.hash"
+HASHSUM_FILE="/var/emblaze-usb.hash"
 
 if [ ! -e "$HASHSUM_FILE" ]; then
-        log "Waiting complete boot and make hashsum file."
+        log "Waiting for first boot and creating hashsum file."
         terminate 1
 fi
 

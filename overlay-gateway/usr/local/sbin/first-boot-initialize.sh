@@ -30,6 +30,7 @@ while [ $(systemctl is-failed rockchip.service) != "inactive" ]; do
 done
 
 
+touch /var/emblaze-usb.hash
 /usr/local/sbin/force-timesync.sh
 
 sync
