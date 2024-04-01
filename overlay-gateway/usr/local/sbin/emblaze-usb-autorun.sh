@@ -7,7 +7,7 @@ log()
 
 # Skip 'emblaze-usb-autorun' when it is first boot
 # Please note that '/etc/systemd/system/first-boot-initialization.service'
-if [ $(systemctl is-active first-boot-initialization.service) == "active"]; then
+if [ $(systemctl is-enabled first-boot-initialization.service) != "disabled"]; then
         log "Not yet complete first boot."
         exit 1
 fi
@@ -26,7 +26,7 @@ terminate() {
 
 # Waiting for system running
 while [ $(systemctl is-system-running) != "running" ]; do
-        log "Waiting for system running."
+        log "Waiting for system running(5s)."
         sleep 5s
 done
 

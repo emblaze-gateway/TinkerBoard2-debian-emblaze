@@ -1,13 +1,11 @@
 [Unit]
 Description=First boot initialization
-ConditionFirstBoot=yes
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/local/sbin/first-boot-initialize.sh
-RemainAfterExit=yes
 Type=oneshot
+ExecStart=/usr/local/sbin/first-boot-initialize.sh
 ProtectHome=true
 
 [Install]

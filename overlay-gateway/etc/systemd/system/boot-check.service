@@ -1,6 +1,5 @@
 [Unit]
 Description=Checking boot
-ConditionFirstBoot=no
 After=network-online.target
 Wants=network-online.target
 
