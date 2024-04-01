@@ -40,15 +40,6 @@ apt install -y libudev1 udev || break
 apt install -y git make gcc wget bc libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev \
 autoconf bison flex libssl-dev libtool automake || break
 
-# Install Python
-cd /usr/local/share/Python
-./configure --enable-optimizations
-make -j4
-make install
-cd /
-rm -r /usr/local/share/Python
-
-
 # Install json-c
 cd /usr/local/share/json-c
 ./configure --prefix=/usr --disable-static
@@ -56,6 +47,14 @@ make -j4
 make install
 cd /
 rm -rf /usr/local/share/json-c
+
+# Install Python
+cd /usr/local/share/Python
+./configure --enable-optimizations
+make -j4
+make install
+cd /
+rm -r /usr/local/share/Python
 
 # Install BlueZ
 cd /usr/local/share/bluez
