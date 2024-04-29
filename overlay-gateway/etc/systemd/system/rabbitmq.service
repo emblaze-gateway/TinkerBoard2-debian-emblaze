@@ -5,8 +5,8 @@ After=docker.service
 ConditionFirstBoot=no
 
 [Service]
-ExecStart=docker run -t --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
-Type=exec
+ExecStart=/usr/local/sbin/rabbitmq.sh
+Type=notify
 NotifyAccess=main
 LimitNPROC=1
 ProtectHome=true
