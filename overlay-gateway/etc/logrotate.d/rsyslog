@@ -1,8 +1,8 @@
 /var/log/syslog
 {
-        minsize 100M
+        maxsize 100M
         rotate 20
-        daily
+        weekly
         missingok
         notifempty
         delaycompress
@@ -19,9 +19,9 @@
 /var/log/mail.log
 /var/log/daemon.log
 {
-        minsize 100M
+        maxsize 100M
         rotate 20
-        daily
+        weekly
         missingok
         notifempty
         delaycompress
@@ -39,7 +39,7 @@
 /var/log/debug
 /var/log/messages
 {
-        rotate 4
+        rotate 20
         weekly
         missingok
         notifempty

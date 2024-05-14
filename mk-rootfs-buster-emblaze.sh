@@ -21,7 +21,7 @@ if [ -e "modules/bluemesh" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/bluemesh
     sudo mkdir $TARGET_ROOTFS_DIR/bluemesh
     sudo cp -rf modules/bluemesh/* $TARGET_ROOTFS_DIR/bluemesh
-else;
+else
 	echo -e "\033[36m No has bluemesh module. \033[0m"
     exit -1
 fi
@@ -30,7 +30,7 @@ if [ -e "modules/gateway" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/gateway
     sudo mkdir $TARGET_ROOTFS_DIR/gateway
     sudo cp -rf modules/gateway/* $TARGET_ROOTFS_DIR/gateway
-else;
+else
 	echo -e "\033[36m No has gateway module. \033[0m"
     exit -1
 fi
@@ -39,7 +39,7 @@ if [ -e "modules/led-control" ]; then
     sudo rm -rf $TARGET_ROOTFS_DIR/usr/local/share/led-control
     sudo mkdir $TARGET_ROOTFS_DIR/usr/local/share/led-control
     sudo cp -rf modules/led-control/* $TARGET_ROOTFS_DIR/usr/local/share/led-control
-else;
+else
 	echo -e "\033[36m No has led-control module. \033[0m"
     exit -1
 fi
@@ -89,13 +89,8 @@ cd /
 
 deactivate
 
-# Install docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-DRY_RUN=1 sh ./get-docker.sh
-sh get-docker.sh
-
 # Setting USB Plug-in-play
-cd /usr/local/bin
+cd /usr/local/sbin
 chmod ug+x emblaze-usb-autorun.sh
 chmod -R ug+x emblaze-usb-autorun
 cd /
@@ -105,6 +100,12 @@ cd /usr/local/sbin
 chmod ug+x first-boot-initialize.sh
 cd /
 
+# force severals after boot
+cd /usr/local/sbin
+chmod ug+x force-timesync.sh
+chmod ug+x force-emblaze-usb.sh
+cd /
+
 # LED Controller
 cd /usr/local/share/led-control
 cmake .
@@ -112,7 +113,6 @@ make
 make install
 cd /
 rm -rf /usr/local/share/led-control
-
 
 #######################################################
 echo $VERSION_NUMBER-$VERSION > /etc/version
