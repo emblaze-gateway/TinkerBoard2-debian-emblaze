@@ -56,6 +56,7 @@ apt-get update
 
 
 #-------------gateway---------------
+cd /
 # Install build packages
 apt install -y build-essential libbz2-dev libdb-dev libreadline-dev libffi-dev libgdbm-dev liblzma-dev libncursesw5-dev \
 libsqlite3-dev libssl-dev zlib1g-dev uuid-dev tk-dev || break
@@ -98,6 +99,11 @@ cd /
 # First Boot Process
 cd /usr/local/sbin
 chmod ug+x first-boot-initialize.sh
+cd /
+
+# Rabbitmq runner
+cd /usr/local/sbin
+chmod ug+x rabbitmq.sh
 cd /
 
 # force severals after boot
