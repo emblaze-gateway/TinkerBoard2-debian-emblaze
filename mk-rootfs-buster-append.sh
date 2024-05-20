@@ -42,25 +42,25 @@ autoconf bison flex libssl-dev libtool automake || break
 
 # Install json-c
 cd /usr/local/share/json-c
-./configure --prefix=/usr --disable-static
-make
+./configure --prefix=/usr --disable-static || break
+make || break
 make install
 cd /
 rm -rf /usr/local/share/json-c
 
 # Install Python
 cd /usr/local/share/Python
-./configure --enable-optimizations
-make -j4
+./configure --enable-optimizations || break
+make -j4 || break
 make install
 cd /
 rm -r /usr/local/share/Python
 
 # Install BlueZ
 cd /usr/local/share/bluez
-./bootstrap
-./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var
-make -j4
+./bootstrap || break
+./configure --enable-mesh --disable-tools --prefix=/usr --mandir=/usr/share/man  --sysconfdir=/etc --localstatedir=/var || break
+make -j4 || break
 make install
 cd /
 rm -rf /usr/local/share/ell
