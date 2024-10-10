@@ -42,6 +42,7 @@ autoconf bison flex libssl-dev libtool automake || break
 
 # Install json-c
 cd /usr/local/share/json-c
+autoreconf -f -i
 ./configure --prefix=/usr --disable-static || break
 make || break
 make install
