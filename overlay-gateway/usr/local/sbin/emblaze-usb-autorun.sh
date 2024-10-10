@@ -7,7 +7,7 @@ log()
 
 # Skip 'emblaze-usb-autorun' when it is first boot
 # Please note that '/etc/systemd/system/first-boot-initialization.service'
-if [ $(systemctl is-enabled first-boot-initialization.service) != "disabled"]; then
+if [ $(systemctl is-enabled first-boot-initialization.service) != "disabled" ]; then
         log "Not yet complete first boot."
         exit 1
 fi
